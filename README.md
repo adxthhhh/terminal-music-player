@@ -15,11 +15,9 @@ sudo apt install vlc
 ```
 **--- OR ---**
 **For Android (Termux) Users:**
-*Note: Termux users may experience audio routing issues with VLC. MPV is recommended as an alternative if VLC fails to produce sound.*
+*Note: Termux users may experience audio routing issues with VLC. MPV is recommended as an alternative if VLC fails to produce sound. Will provide updated code for that.*
 ```bash
 pkg install vlc
-# If using MPV instead:
-pkg install mpv
 
 ```
 ### 2. Install Python Dependencies
