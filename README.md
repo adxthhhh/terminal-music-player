@@ -2,6 +2,12 @@
 
 
 
+> **⚠️ Disclaimer:** This repository is an educational proof-of-concept designed to demonstrate local file system traversal, terminal UI construction,
+> and third-party API integration within a Python environment. It is strictly intended for personal, private development and experimentation.
+> It is not designed for commercial use, public deployment, or circumventing DRM to distribute copyrighted material.
+> Users are responsible for ensuring their usage complies with the Terms of Service of any integrated platforms or APIs.
+
+
 
 *(Download and install VLC directly from their official website).*
 **For Linux Users:**
