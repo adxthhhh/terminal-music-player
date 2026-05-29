@@ -105,14 +105,41 @@ def search_youtube(query, stdscr):
         return None
 
 def resolve_stream(video_id):
-    """JIT (Just-In-Time) resolution of the YouTube stream URL."""
-    ydl_opts = {'format': 'bestaudio/best', 'quiet': True, 'no_warnings': True}
-    try:
-        with yt_dlp.YoutubeDL(ydl_opts) as ydl:
-            info = ydl.extract_info(f"https://www.youtube.com/watch?v={video_id}", download=False)
-            return info['url']
-    except Exception:
-        return None
+    """Automatically tests common browsers to find valid YouTube cookies."""
+    
+    # List of browsers yt-dlp supports. It will try them in this order.
+    browsers_to_try = ['firefox', 'chrome', 'edge', 'brave', 'opera', 'safari']
+    
+    for browser in browsers_to_try:
+        print(f"[*] Attempting to use cookies from: {browser}...")
+        
+        ydl_opts = {
+            'format': 'bestaudio/best', 
+            'quiet': True, 
+            'no_warnings': True,
+            'cookiesfrombrowser': (browser, ) 
+        }
+        
+        try:
+            with yt_dlp.YoutubeDL(ydl_opts) as ydl:
+                info = ydl.extract_info(f"https://www.youtube.com/watch?v={video_id}", download=False)
+                print(f"[+] Success! Connected to YouTube using {browser}.")
+                return info['url']
+                
+        except Exception as e:
+            # If the browser isn't installed, is locked, or isn't logged into YT, it fails silently and loops to the next.
+            error_msg = str(e).lower()
+            if "sign in to confirm" in error_msg:
+                print(f"[-] {browser} found, but it is not logged into YouTube.")
+            elif "locked" in error_msg:
+                print(f"[-] {browser} database is locked (Browser might need to be closed).")
+            else:
+                print(f"[-] Failed to use {browser}.")
+            continue 
+
+    print("[!] ERROR: Could not find any valid YouTube cookies on this machine.")
+    print("[!] Please ensure you are logged into YouTube on one of your web browsers.")
+    return None
 
 def play_audio(source_type, source_id, stdscr):
     """Prepares and plays the media securely."""
