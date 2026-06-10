@@ -9,6 +9,8 @@ from ytmusicapi import YTMusic
 import yt_dlp
 from tinytag import TinyTag
 
+
+
 # --- 1. CONFIGURATION & STATE ---
 CONFIG_DIR = Path.home() / ".config" / "life_os" / "music"
 CONFIG_DIR.mkdir(parents=True, exist_ok=True)
@@ -24,6 +26,8 @@ player = vlc_instance.media_player_new()
 
 # Event flag for auto-advance
 song_finished_event = threading.Event()
+
+
 
 def vlc_end_callback(event):
     """Triggers when VLC finishes playing a file/stream."""
@@ -207,7 +211,8 @@ def get_input_with_events(stdscr, prompt_y, prompt_x):
     stdscr.timeout(-1)
     return input_str.strip()
 
-# --- 4. MAIN LOOP ---
+#----------------------------------- --- 4. MAIN LOOP--------------------------------------------------------------- ---
+
 def main_app(stdscr):
     curses.curs_set(1)
     
@@ -252,7 +257,12 @@ def main_app(stdscr):
                     
                     user_input = get_input_with_events(stdscr, prompt_y, 49)
                     
-                    if not user_input or user_input == "EVENT_NEXT": continue
+                    if not user_input: 
+                        continue
+
+                    if user_input == "EVENT_NEXT": 
+                        song_finished_event.clear()  # This turns off the alarm!
+                        continue
                     if user_input.lower() in ['b', 'back', 'q', 'quit']: break
                     if user_input.lower() in ['p', 'pause']:
                         player.pause()
@@ -462,6 +472,8 @@ def main_app(stdscr):
         # ENSURES SAFE SHUTDOWN & KILLS ZOMBIE AUDIO
         player.stop()
         vlc_instance.release()
+
+
 
 if __name__ == "__main__":
     try:
