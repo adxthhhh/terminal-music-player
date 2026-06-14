@@ -51,13 +51,13 @@ pip install python-vlc ytmusicapi yt-dlp tinytag
  2. Launch the application from your terminal:
 **For Windows Users:**
 ```powershell
-python music_player.py
+python music.py
 
 ```
 **--- OR ---**
 **For Linux & Android (Termux) Users:**
 ```bash
-python3 music_player.py
+python3 music.py
 
 ```
  3. **Setup:** On the first prompt, provide the path to your local music directory.
